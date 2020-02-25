@@ -6,6 +6,7 @@ if (isset($_GET['status']) && $_GET['status']!="") {
  $result = mysqli_query(
  $con,
  "SELECT * FROM `gs_daily_move`");
+ //$array = array();
  if(mysqli_num_rows($result)>0){
  while($row = mysqli_fetch_array($result)){;
  $duty_date = $row['duty_date'];
@@ -14,8 +15,12 @@ if (isset($_GET['status']) && $_GET['status']!="") {
  $imei = $row['imei'];
  $reading = $row['reading'];
  $owner = $row['username'];
+ //$array[] = $row;
+ // send all table data from here;
  response($status, $duty_date, $user_id,$device_name,$imei,$reading,$owner);
 }
+// $data = json_encode($array);
+// echo $data;
 
  mysqli_close($con);
  }else{
@@ -33,16 +38,6 @@ function response($status,$duty_date,$user_id,$device_name,$imei,$reading,$owner
  $response['reading'] = $reading;
  $response['device_name'] = $device_name;
  $response['owner'] = $owner;
-//  $conn = mysqli_connect("localhost","root","mechtech5","allphptricks");
-//  $chk = "select * from gs_daily_move where imei='$imei'";
-//  $result = mysqli_query($conn,$chk);
-//  if(mysqli_num_rows($result)){
-//  $query ="update gs_daily_move set reading='$reading', duty_date='$duty_date' where imei='$imei'"; 
-//  $result = mysqli_query($conn,$query);
-// }else{
-// 	$query ="insert into gs_daily_move(duty_date,user_id,device_name,imei,reading,username,status) values ('$duty_date','$user_id','$device_name','$imei','$reading','$owner','$status')"; 
-//  $result = mysqli_query($conn,$query);
-// }
 
  $json_response = json_encode($response);
  echo $json_response;
